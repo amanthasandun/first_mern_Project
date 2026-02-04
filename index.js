@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import productRouter from './Router/productRoutes.js'
 import userRouter from './Router/userRoutes.js'
 import jwt from "jsonwebtoken" // the scenarios with the web token 
+import orderRouter from './Router/orderRouter.js'
 
 const app = express()
 
@@ -46,6 +47,7 @@ mongoose.connect("mongodb+srv://sandunAman:2002@cluster0.p6otd8o.mongodb.net/?ap
 
 app.use("/products" , productRouter)
 app.use("/user" , userRouter)
+app.use("/orders" , orderRouter)
 
 
 // app.listen (param 1 , param 2)
