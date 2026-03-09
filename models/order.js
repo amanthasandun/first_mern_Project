@@ -75,5 +75,5 @@ const orderSchema = mongoose.Schema({
     }
 })
 
-const Order = mongoose.model("Order" , orderSchema)
+const Order = mongoose.model("Order" , orderSchema)  // param 1 = name of the collection that save in the database , param 2 = name of the Schema
 export default Order

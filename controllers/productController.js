@@ -171,6 +171,29 @@ export async function getProductById(req, res){
     }
 }
 
+export async function SearchProducts(req, res) {
+    const searchQuery = req.params.query;
+
+    try {
+        const regex = new RegExp(searchQuery, "i");
+
+        const products = await Product.find({
+            $or: [
+                { productName: regex },
+                { altName: { $elemMatch: { $regex: regex } } }
+            ],
+            isAvailable : true
+        });
+
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal server error",
+            error: err
+        });
+    }
+}
+
 export function isAdmin(req){
     if (req.user == null){
         return false

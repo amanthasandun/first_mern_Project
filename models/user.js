@@ -36,5 +36,5 @@ const userSchema = mongoose.Schema({
     
 })
 
-const User = mongoose.model("user" , userSchema)
+const User = mongoose.model("user" , userSchema)  // param 1 = name of the collection that save in the database , param 2 = name of the Schema
 export default User 

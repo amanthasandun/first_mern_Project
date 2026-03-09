@@ -1,5 +1,6 @@
 import Order from "../models/order.js"
 import Product from "../models/products.js"
+import { isAdmin } from "./productController.js"
 
 export async function createOrder(req,res){
     if (req.user == null){
@@ -84,6 +85,7 @@ export async function createOrder(req,res){
             message : "Order created successfully",
             order : createOrder
         })
+
     }catch(err){
         res.status(500).json({
             message : "Failed to create order",
@@ -94,4 +96,54 @@ export async function createOrder(req,res){
     //add current current users name if not provoided 
     // OrderId 
     // Create Order Object 
+}
+
+export async function UpdateOrderStatus(req, res){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            message : "You are not autharize to update the user "
+        });
+        return
+    }
+    try{
+        const orderId = req.params.orderId
+        const status = req.params.status
+
+        await Order.updateOne(
+            {orderId : orderId},
+            {status : status}
+        )
+
+        res.json({
+            message : "Order updates succesfully"
+        })
+    }catch(e){
+        res.status(500).json({
+            message : "Failed to update to  the status"
+        })
+        console.log(e)
+    }
+}
+
+export async function getOrders(req , res ){
+    if(req.user==null ){
+        res.status(403).json({
+            message : "Please logion and try again"
+        })
+    }
+    try{
+        if(req.user.role == "admin"){
+            const orders =await Order.find()
+            res.json(orders)
+        }else{
+            const orders = await Order.find({email:req.user.email})
+            res.json(orders)
+        }
+    }catch(e){
+        res.status(500).json({
+            message : "Failed to fettch the Orders",
+            error:err
+        })
+    }
+    
 }

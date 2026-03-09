@@ -19,9 +19,11 @@ const productSchema  = mongoose.Schema({
         type : String,
         required : true,
     },
-    imges : {
-        type : String ,
-    },
+    imges : [
+        {
+            type : String ,
+        }
+    ],
     labelledPrice : {
         type : Number,
         required  : true,
@@ -42,5 +44,5 @@ const productSchema  = mongoose.Schema({
     
 })
 
-const Product = mongoose.model("products" , productSchema)
+const Product = mongoose.model("products" , productSchema)  // param 1 = name of the collection that save in the database , param 2 = name of the Schema
 export default Product
